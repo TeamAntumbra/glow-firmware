@@ -66,7 +66,7 @@ int main(int argc, char **argv)
             OR_DIE(libusb_claim_interface(handle, intfclaimed));
 
             int xfrd;
-            char sndbuf[] = "derpherpherp";
+            char sndbuf[] = "abcdef";
             int nsnd = strlen(sndbuf);
             uint8_t rdbuf[64];
             OR_DIE(libusb_bulk_transfer(handle, epoutaddr, (unsigned char *)sndbuf, nsnd, &xfrd, 1000));

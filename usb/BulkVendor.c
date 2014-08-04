@@ -49,26 +49,27 @@ int main(void)
     cli();
     MCUCR = _BV(IVCE);
     MCUCR = 0;
+
+    // deactivate LED timer (from CDC-ACM loader putting blue on low)
+    TCCR1B &= ~(_BV(CS12) | _BV(CS11) | _BV(CS10));
+    TCCR1A &= ~(_BV(COM1A1) | _BV(COM1B1) | _BV(COM1C1));
+
+    DDRB |= _BV(DDB6);
+    PORTB &= ~_BV(PORTB6);
 	GlobalInterruptEnable();
 
-	for (;;)
-	{
+	for (;;) {
 		USB_USBTask();
 
 		uint8_t ReceivedData[VENDOR_IO_EPSIZE];
-        memset(ReceivedData, 0, sizeof ReceivedData);
 
 		Endpoint_SelectEndpoint(VENDOR_OUT_EPADDR);
-		if (Endpoint_IsOUTReceived())
-		{
+		if (Endpoint_IsOUTReceived()) {
+            uint16_t nrd;
+            memset(ReceivedData, 0, sizeof ReceivedData);
+
 			Endpoint_Read_Stream_LE(ReceivedData, VENDOR_IO_EPSIZE, NULL);
 			Endpoint_ClearOUT();
-
-            DDRB |= _BV(DDB6);
-            PORTB |= _BV(PORTB6);
-            _delay_ms(10);
-            PORTB &= ~_BV(PORTB6);
-            _delay_ms(50);
 
 			Endpoint_SelectEndpoint(VENDOR_IN_EPADDR);
 			Endpoint_Write_Stream_LE(ReceivedData, VENDOR_IO_EPSIZE, NULL);
