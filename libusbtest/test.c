@@ -31,6 +31,8 @@ int main(int argc, char **argv)
         struct libusb_config_descriptor *cfg;
         OR_DIE(libusb_get_active_config_descriptor(devs[i], &cfg));
 
+        int intfclaimed;
+
         printf(" nint %d\n", cfg->bNumInterfaces);
         for (int i = 0; i < cfg->bNumInterfaces; ++i) {
             struct libusb_interface intf = cfg->interface[i];
@@ -50,6 +52,8 @@ int main(int argc, char **argv)
                             epinaddr = epd.bEndpointAddress;
                         else
                             epoutaddr = epd.bEndpointAddress;
+
+                        intfclaimed = intfdsc.bInterfaceNumber;
                     }
                 }
             }
@@ -58,6 +62,8 @@ int main(int argc, char **argv)
         if (epinaddr && epoutaddr) {
             libusb_device_handle *handle;
             OR_DIE(libusb_open(devs[i], &handle));
+
+            OR_DIE(libusb_claim_interface(handle, intfclaimed));
 
             int xfrd;
             char sndbuf[] = "derpherpherp";
@@ -73,6 +79,8 @@ int main(int argc, char **argv)
             for (int i = 0; i < xfrd; ++i)
                 printf(" %02x", rdbuf[i]);
             printf("\n");
+
+            OR_DIE(libusb_release_interface(handle, intfclaimed));
 
             libusb_close(handle);
 
