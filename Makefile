@@ -52,4 +52,4 @@ usb.a: .FORCE
 
 main.elf: libs = -lm
 main.elf: LDFLAGS += -Wl,--relax
-main.elf: usb.a
+main.elf: usb.a led.o
