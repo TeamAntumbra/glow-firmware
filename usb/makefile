@@ -20,7 +20,7 @@ OPTIMIZATION = s
 TARGET       = BulkVendor
 SRC          = $(TARGET).c Descriptors.c $(LUFA_SRC_USB)
 LUFA_PATH    = ../lufa/LUFA
-CC_FLAGS     = -DUSE_LUFA_CONFIG_HEADER -IConfig/
+CC_FLAGS     = -DUSE_LUFA_CONFIG_HEADER -IConfig/ -Wall
 LD_FLAGS     =
 
 # Default target
