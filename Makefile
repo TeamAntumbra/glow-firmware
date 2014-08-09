@@ -1,4 +1,4 @@
-mcu = atmega32u4
+mcu = atmega16u4
 fcpu = 16000000UL
 
 CC = avr-gcc
