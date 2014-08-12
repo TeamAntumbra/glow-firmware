@@ -40,7 +40,7 @@ int main(void)
 	USB_Init();
 
     led_init();
-    led_set_rgb(0xff, 0xff, 0xff);
+    led_set_rgb(0, 1, 0);
 
 	sei();
 
