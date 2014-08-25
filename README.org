@@ -1,0 +1,148 @@
+#+options: html-postamble:nil
+
+* Protocol
+
+Glow devices speak a simple, extensible protocol over USB. No USB class,
+subclass, or protocol is used; communication occurs directly with raw endpoints.
+
+** Device identification
+
+To be recognized as implementing the Glow protocol, a device must conform to a
+number of conditions. First, it must have one of the following combinations of
+vendor and product ID:
+
+| Vendor ID | Product ID |                                  |
+|-----------+------------+----------------------------------|
+|    0x2040 |     0x03eb | LUFA test ID (experimental only) |
+
+Only the first interface (bInterfaceNumber = 0) of the default configuration
+(bConfigurationValue = 1) is used. bInterfaceClass, bInterfaceSubClass, and
+bInterfaceProtocol must all be 0xff. The iInterface string descriptor must be of
+this form:
+
+: io.antumbra.glowapi/<outep>/<inep>/<info>
+
+- =io.antumbra.glowapi=: identifies this interface as implementing the Glow
+  protocol described here
+- =<outep>=: bEndpointAddress of the OUT (host to device) command endpoint
+- =<inep>=: bEndpointAddress of the IN (device to host) command endpoint
+- =<info>=: an arbitrary string, but recommended to be in a form that uniquely
+  identifies the implementation (such as reverse-DNS
+  =org.example.glow-compatible-device= notation)
+
+=<outep>= and =<inep>= are two-digit hexadecimal numbers with no prefix. Both
+lowercase and uppercase digits are acceptable, but lowercase is recommended for
+consistency. The high bit of =<outep>= must be 0 and the high bit of =<inep>=
+must be 1; these bits indicate the endpoint direction. Typically =<outep>= is
+=01= and =<inep>= is =82=.
+
+Both must be bulk endpoints. There may be other endpoints than those specified
+by =<outep>= and =<inep>=, but they are ignored unless the device advertises an
+API that uses them (see below).
+
+** Base protocol
+
+The required bulk endpoints are used to carry a packet-based command protocol.
+The host sends commands to the device, and the device must respond to each
+command.
+
+Commands are specified by an API identifier and a command identifier. The API
+identifier represents a set of functionality, and the command identifier
+represents a specific operation within that set.
+
+All packets are of fixed 64-byte size. Where applicable, big-endian order is
+assumed.
+
+Command packet:
+
+| Field     | Size |                           |
+|-----------+------+---------------------------|
+| api       |    4 | API identifier            |
+| cmd       |    2 | Command identifier        |
+| (padding) |    2 | Ignored                   |
+| data      |    N | Arbitrary, defined by API |
+| (padding) | 56-N | Ignored                   |
+
+Response packet:
+
+| Field     | Size |                             |
+|-----------+------+-----------------------------|
+| error     | 1    | (see below)                 |
+| (padding) | 7    | Ignored                     |
+| data      | N    | Arbitrary, defined by API   |
+| (padding) | 56-N | Ignored, should be 0-filled |
+
+The device must respond to commands in the order that they were received. The
+host should wait until the response is received before sending additional
+commands.
+
+The =error= field indicates protocol-level errors:
+
+| Error |                            |
+|-------+----------------------------|
+|     0 | No error                   |
+|     1 | Unsupported API or command |
+
+APIs may not use the =error= field for their own purposes. If it is necessary to
+represent the occurence of an API-level error, this must be done in the response
+payload. The =error= field exists at a different conceptual layer.
+
+** Core API
+
+All devices must support the Core API. It provides universal functionality and
+allows bootstrapping support for other APIs.
+
+The API identifier is 0.
+
+*** Echo (0)
+
+Can be used to synchronize the host and device at the beginning of a session, in
+case the device is still in the process of sending responses from a previous
+session. For this application, the host should send an Echo command with a
+reasonably unique payload and discard response packets until it receives one
+with the same payload as the command.
+
+The command payload contains arbitrary data and is assumed to occupy the maximum
+available space in the packet. The response payload is equal to the command
+payload.
+
+*** Ask (1)
+
+Ask whether the device supports a given API.
+
+Command payload:
+
+| Field | Size |                                           |
+|-------+------+-------------------------------------------|
+| api   |    4 | API identifier for which to query support |
+
+Response payload:
+
+| Field     | Size |                                                   |
+|-----------+------+---------------------------------------------------|
+| supported | 1    | 1 if API is supported, else 0                     |
+| info      | N    | API-defined information, if supported; else empty |
+
+If the host queries API 0 (Core), the device must respond with affirmative
+support. No =info= field is defined for this case.
+
+*** Diagnostic (2)
+
+Report problem conditions such as hardware failures, configuration errors, etc.
+
+The command payload is empty.
+
+The response payload contains arbitrary data of a format specific to the device
+firmware. However, the presence of any nonzero byte in the payload will be
+assumed to indicate the existence of at least one problem condition.
+
+*** Identify (3)
+
+Produce human-readable information that identifies the device implementation.
+
+The command payload is empty.
+
+The response payload is a human-readable string of up to 56 bytes in an
+unspecified encoding. If its length is less than 56 bytes, there must be a 0
+byte immediately after the end of the string. Payload data after the 0 byte is
+ignored.
