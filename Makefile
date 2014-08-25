@@ -15,6 +15,7 @@ CFLAGS = \
 
 LD = avr-gcc
 LDFLAGS = -mmcu=$(mcu) -Wl,--gc-sections
+LDLIBS =
 
 AR = avr-ar
 
@@ -28,7 +29,7 @@ MAKEREC = env -u MFLAGS -u MAKEFLAGS -u MAKELEVEL $(MAKE) -s
 all: main.hex main.bin
 
 %.elf:
-	$(LD) $(LDFLAGS) -o $@ $^ $(libs)
+	$(LD) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 %.hex: %.elf
 	avr-objcopy -O ihex $< $@
@@ -50,6 +51,6 @@ rawusb.a: .FORCE
 	$(MAKEREC) -C rawusb lib
 	cp rawusb/librawusb.a $@
 
-main.elf: libs = -lm
+main.elf: LDLIBS = -lm
 main.elf: LDFLAGS += -Wl,--relax
 main.elf: led.o main.o rawusb.a
