@@ -39,17 +39,17 @@ all: main.hex main.bin
 .PHONY: clean
 clean:
 	-rm *.o *.a *.elf *.hex *.bin
-	$(MAKEREC) -C usb clean
-	-rm usb/libBulkVendor.a
+	$(MAKEREC) -C rawusb clean
+	-rm rawusb/librawusb.a
 
 %.a:
 	$(AR) rcs $@ $^
 
 .PHONY: .FORCE
-usb.a: .FORCE
-	$(MAKEREC) -C usb lib
-	cp usb/libBulkVendor.a $@
+rawusb.a: .FORCE
+	$(MAKEREC) -C rawusb lib
+	cp rawusb/librawusb.a $@
 
 main.elf: libs = -lm
 main.elf: LDFLAGS += -Wl,--relax
-main.elf: usb.a led.o
+main.elf: led.o main.o rawusb.a
