@@ -26,9 +26,9 @@ this form:
   protocol described here
 - =<outep>=: bEndpointAddress of the OUT (host to device) command endpoint
 - =<inep>=: bEndpointAddress of the IN (device to host) command endpoint
-- =<info>=: an arbitrary string, but recommended to be in a form that uniquely
-  identifies the implementation (such as reverse-DNS
-  =org.example.glow-compatible-device= notation)
+- =<info>=: an arbitrary string, but recommended to be in a form that identifies
+  the implementation (such as =org.example.glow-compatible-device= reverse
+  domain name notation)
 
 =<outep>= and =<inep>= are two-digit hexadecimal numbers with no prefix. Both
 lowercase and uppercase digits are acceptable, but lowercase is recommended for
