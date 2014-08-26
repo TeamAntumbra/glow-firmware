@@ -136,7 +136,7 @@ The response payload contains arbitrary data of a format specific to the device
 firmware. However, the presence of any nonzero byte in the payload will be
 assumed to indicate the existence of at least one problem condition.
 
-*** Identify (3)
+*** Implementation ID (3)
 
 Produce human-readable information that identifies the device implementation.
 
@@ -146,3 +146,14 @@ The response payload is a human-readable string of up to 56 bytes in an
 unspecified encoding. If its length is less than 56 bytes, there must be a 0
 byte immediately after the end of the string. Payload data after the 0 byte is
 ignored.
+
+*** Device ID (4)
+
+Produce an identifier for this particular device that may be reasonably assumed
+to distinguish it from others of its model and all other Glow-compatible devices
+in existence.
+
+The command payload is empty.
+
+The response payload contains an arbitrary sequence of 56 bytes that comprise
+the unique identifier.
