@@ -65,12 +65,12 @@ Command packet:
 
 Response packet:
 
-| Field     | Size |                             |
-|-----------+------+-----------------------------|
-| error     | 1    | (see below)                 |
-| (padding) | 7    | Ignored                     |
-| data      | N    | Arbitrary, defined by API   |
-| (padding) | 56-N | Ignored, should be 0-filled |
+| Field     | Size |                           |
+|-----------+------+---------------------------|
+| error     | 1    | (see below)               |
+| (padding) | 7    | Ignored                   |
+| data      | N    | Arbitrary, defined by API |
+| (padding) | 56-N | Ignored                   |
 
 The device must respond to commands in the order that they were received. The
 host should wait until the response is received before sending additional
