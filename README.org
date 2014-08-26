@@ -138,7 +138,8 @@ assumed to indicate the existence of at least one problem condition.
 
 *** Implementation ID (3)
 
-Produce human-readable information that identifies the device implementation.
+Produce human-readable information that identifies the device implementation. A
+reverse domain name is one possible form.
 
 The command payload is empty.
 
@@ -150,10 +151,9 @@ ignored.
 *** Device ID (4)
 
 Produce an identifier for this particular device that may be reasonably assumed
-to distinguish it from others of its model and all other Glow-compatible devices
+to distinguish it from others of its model and all other Glow protocol devices
 in existence.
 
 The command payload is empty.
 
-The response payload contains an arbitrary sequence of 56 bytes that comprise
-the unique identifier.
+The response payload contains the 56-byte unique identifier.
