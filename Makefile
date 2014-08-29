@@ -46,6 +46,14 @@ clean:
 	$(MAKEREC) -C rawusb clean
 	-rm rawusb/librawusb.a
 
+.PHONY: fuse-dragonisp flash-dragonisp
+fuse-dragonisp:
+	avrdude -C +avrdude-m16u4.conf -c dragon_isp -P usb -p atmega16u4 -B 10 \
+		-U lfuse:w:0xFF:m -U hfuse:w:0x9E:m -U efuse:w:0xC8:m
+flash-dragonisp: loader.hex default.eep
+	avrdude -C +avrdude-m16u4.conf -c dragon_isp -P usb -p atmega16u4 -B 0.5 \
+		-U flash:w:loader.hex:i -U eeprom:w:default.eep:r
+
 %.a:
 	$(AR) rcs $@ $^
 
