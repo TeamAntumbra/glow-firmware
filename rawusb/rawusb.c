@@ -54,7 +54,7 @@ const struct cfgdescriptor PROGMEM cfgdes = {
         .Class = 0xff,
         .SubClass = 0xff,
         .Protocol = 0xff,
-        .InterfaceStrIndex = NO_DESCRIPTOR,
+        .InterfaceStrIndex = 4,
     },
     .cfoutep = {
         .Header = {
@@ -82,6 +82,9 @@ const USB_Descriptor_String_t PROGMEM langstr = USB_STRING_DESCRIPTOR_ARRAY(LANG
 const USB_Descriptor_String_t PROGMEM manustr = USB_STRING_DESCRIPTOR(L"Antumbra");
 const USB_Descriptor_String_t PROGMEM prodstr = USB_STRING_DESCRIPTOR(L"Glow test");
 const USB_Descriptor_String_t PROGMEM seristr = USB_STRING_DESCRIPTOR(L"Superlative Edition");
+const USB_Descriptor_String_t PROGMEM magic = USB_STRING_DESCRIPTOR(
+    L"io.antumbra.glowapi/01/82/io.antumbra.glow.v3"
+);
 
 uint16_t CALLBACK_USB_GetDescriptor(uint16_t val, uint8_t idx,
                                     const void **addr)
@@ -114,6 +117,9 @@ uint16_t CALLBACK_USB_GetDescriptor(uint16_t val, uint8_t idx,
         case 3:
             *addr = &seristr;
             return pgm_read_byte(&seristr.Header.Size);
+        case 4:
+            *addr = &magic;
+            return pgm_read_byte(&magic.Header.Size);
         }
     }
 
