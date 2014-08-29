@@ -53,4 +53,4 @@ rawusb.a: .FORCE
 
 main.elf: LDLIBS = -lm
 main.elf: LDFLAGS += -Wl,--relax
-main.elf: led.o main.o rawusb.a
+main.elf: main.o led.o proto.o rawusb.a
