@@ -26,7 +26,7 @@ ASFLAGS = -mmcu=$(mcu)
 MAKEREC = env -u MFLAGS -u MAKEFLAGS -u MAKELEVEL $(MAKE) -s
 
 .PHONY: all
-all: main.bin loader.hex
+all: main.bin loader.hex default.eep
 
 %.elf:
 	$(LD) $(LDFLAGS) -o $@ $^ $(LDLIBS)
@@ -37,9 +37,12 @@ all: main.bin loader.hex
 %.bin: %.elf
 	avr-objcopy -O binary $< $@
 
+%.eep: %.eep.txt
+	cut -f 1 -d '#' $< | xxd -r -p > $@
+
 .PHONY: clean
 clean:
-	-rm *.o *.a *.elf *.hex *.bin
+	-rm *.o *.a *.elf *.hex *.bin *.eep
 	$(MAKEREC) -C rawusb clean
 	-rm rawusb/librawusb.a
 

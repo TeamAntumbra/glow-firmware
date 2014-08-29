@@ -1,0 +1,7 @@
+# Force bootloader entry on reset
+# 00: do not force bootloader
+# XX: force bootloader
+b002104d 01 01
+
+# Option end marker
+ffffffff
