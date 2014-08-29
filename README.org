@@ -67,7 +67,7 @@ Response packet:
 
 | Field     | Size |                           |
 |-----------+------+---------------------------|
-| error     | 1    | (see below)               |
+| status    | 1    | (see below)               |
 | (padding) | 7    | Ignored                   |
 | data      | N    | Arbitrary, defined by API |
 | (padding) | 56-N | Ignored                   |
@@ -76,16 +76,18 @@ The device must respond to commands in the order that they were received. The
 host should wait until the response is received before sending additional
 commands.
 
-The =error= field indicates protocol-level errors:
+The =status= field indicates protocol-level errors:
 
-| Error |                            |
-|-------+----------------------------|
-|     0 | No error                   |
-|     1 | Unsupported API or command |
+| Status |                            |
+|--------+----------------------------|
+|      0 | Success                    |
+|      1 | Unsupported API or command |
 
-APIs may not use the =error= field for their own purposes. If it is necessary to
-represent the occurence of an API-level error, this must be done in the response
-payload. The =error= field exists at a different conceptual layer.
+APIs may not use the =status= field for their own purposes. If it is necessary
+to represent the occurence of an API-level error, this must be done in the
+response payload. The =status= field exists at a different conceptual layer.
+
+Responses with nonzero =status= have an empty payload.
 
 ** Core API
 
