@@ -71,7 +71,7 @@ main.elf: main.o led.o proto.o rawusb.a
 
 # --relax interferes with jump tables
 loader.elf: LDFLAGS += -Wl,--no-relax
-loader.elf: LDFLAGS += -Wl,--section-start=.text=0x2c00
+loader.elf: LDFLAGS += -Wl,--section-start=.text=0x2800
 loader.elf: LDFLAGS += -Wl,--section-start=.fake_vectors=0x3e00,--undefined=_fake_vectors
 loader.elf: LDFLAGS += -Wl,--section-start=.flash_parts=0x3f00,--undefined=flash_write
 loader.elf: loader.o fake-vectors.o led.o flash.o proto.o option.o rawusb.a
