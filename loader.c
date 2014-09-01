@@ -7,7 +7,7 @@
 #include "flash.h"
 #include "proto.h"
 
-static const char impl_id[] PROGMEM = "Antumbra Glow V3 (loader)";
+static const char impl_id[] PROGMEM = "Glow V3 ldr " ANTUMBRA_COMMIT_ID;
 
 int main(void)
 {

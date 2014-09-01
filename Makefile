@@ -2,7 +2,7 @@ mcu = atmega16u4
 fcpu = 16000000UL
 
 CC = avr-gcc
-CFLAGS = \
+CFLAGS := \
 	-Wall -std=c99 -Os -g -mmcu=$(mcu) -DF_CPU=$(fcpu) \
 	\
 	-ffunction-sections \
@@ -11,7 +11,9 @@ CFLAGS = \
 	-funsigned-char \
 	-funsigned-bitfields \
 	-fpack-struct \
-	-fshort-enums
+	-fshort-enums \
+	\
+	-DANTUMBRA_COMMIT_ID='"$(shell git rev-parse HEAD)"'
 
 LD = avr-gcc
 LDFLAGS = -mmcu=$(mcu) -Wl,--gc-sections
@@ -68,7 +70,7 @@ main.elf: main.o led.o proto.o rawusb.a
 
 # --relax interferes with jump tables
 loader.elf: LDFLAGS += -Wl,--no-relax
-loader.elf: LDFLAGS += -Wl,--section-start=.text=0x2d00
+loader.elf: LDFLAGS += -Wl,--section-start=.text=0x2c00
 loader.elf: LDFLAGS += -Wl,--section-start=.fake_vectors=0x3e00,--undefined=_fake_vectors
 loader.elf: LDFLAGS += -Wl,--section-start=.flash_parts=0x3f00,--undefined=flash_write
 loader.elf: loader.o fake-vectors.o led.o flash.o proto.o option.o rawusb.a
