@@ -37,6 +37,13 @@ int main(void)
         if (cmdbuf) {
             if (api == 0 && cmd == 0)
                 proto_send(0, cmdbuf, 56);
+
+            else if (api == 0 && cmd == 1) {
+                uint32_t qapi = proto_get_u32(&cmdbuf);
+                uint8_t sup = qapi == 0 ? 1 : 0;
+                proto_send(0, &sup, 1);
+            }
+
             else {
                 proto_send_start(1);
                 proto_send_end();
