@@ -38,21 +38,25 @@ int main(void)
         uint16_t cmd;
         const void *cmdbuf = proto_recv(&api, &cmd);
         if (cmdbuf) {
+            // Echo
             if (api == 0 && cmd == 0)
                 proto_send(0, cmdbuf, 56);
 
+            // Query
             else if (api == 0 && cmd == 1) {
                 uint32_t qapi = proto_get_u32(&cmdbuf);
                 uint8_t sup = qapi == 0 ? 1 : 0;
                 proto_send(0, &sup, 1);
             }
 
+            // Diagnostic
             else if (api == 0 && cmd == 2) {
                 proto_send_start(0);
                 proto_send_pad(56);
                 proto_send_end();
             }
 
+            // Implementation ID
             else if (api == 0 && cmd == 3) {
                 proto_send_start(0);
                 for (int i = 0; i < sizeof impl_id; ++i)
