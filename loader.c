@@ -8,6 +8,7 @@
 #include "proto.h"
 
 static const char impl_id[] PROGMEM = "Glow V3 ldr " ANTUMBRA_COMMIT_ID;
+static const uint8_t dev_ver[] PROGMEM = {ANTUMBRA_COMMIT_ID_HEX};
 
 int main(void)
 {
@@ -61,6 +62,18 @@ int main(void)
                 proto_send_start(0);
                 for (int i = 0; i < sizeof impl_id; ++i)
                     proto_send_u8(pgm_read_byte(impl_id + i));
+                proto_send_end();
+            }
+
+            // Device ID
+            else if (api == 0 && cmd == 4) {
+                proto_send_start(0);
+                for (int i = 0; i < sizeof dev_ver; ++i)
+                    proto_send_u8(pgm_read_byte(dev_ver + i));
+                proto_send_u8(SIGNATURE_0);
+                proto_send_u8(SIGNATURE_1);
+                proto_send_u8(SIGNATURE_2);
+                proto_send_u8(OSCCAL);
                 proto_send_end();
             }
 
