@@ -1,10 +1,13 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/pgmspace.h>
 
 #include "led.h"
 #include "rawusb.h"
 #include "flash.h"
 #include "proto.h"
+
+static const char impl_id[] PROGMEM = "Antumbra Glow V3 (loader)";
 
 int main(void)
 {
@@ -42,6 +45,19 @@ int main(void)
                 uint32_t qapi = proto_get_u32(&cmdbuf);
                 uint8_t sup = qapi == 0 ? 1 : 0;
                 proto_send(0, &sup, 1);
+            }
+
+            else if (api == 0 && cmd == 2) {
+                proto_send_start(0);
+                proto_send_pad(56);
+                proto_send_end();
+            }
+
+            else if (api == 0 && cmd == 3) {
+                proto_send_start(0);
+                for (int i = 0; i < sizeof impl_id; ++i)
+                    proto_send_u8(pgm_read_byte(impl_id + i));
+                proto_send_end();
             }
 
             else {
