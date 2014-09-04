@@ -66,7 +66,9 @@ int main(void)
             // Query
             else if (api == 0 && cmd == 1) {
                 uint32_t qapi = proto_get_u32(&cmdbuf);
-                uint8_t sup = qapi == 0 || qapi == 1 ? 1 : 0;
+                uint8_t sup = (qapi == 0 ||
+                               qapi == 1 ||
+                               qapi == 2) ? 1 : 0;
                 proto_send(0, &sup, 1);
             }
 
@@ -114,6 +116,52 @@ int main(void)
                 uint8_t ldrflag = proto_get_u8(&cmdbuf) ? 1 : 0;
                 option_set(0xb002104d, &ldrflag, 1);
                 proto_send_start(0);
+                proto_send_end();
+            }
+
+            // EEPROM Info
+            else if (api == 2 && cmd == 0) {
+                proto_send_start(0);
+                proto_send_u16(OPTION_EEPROM_SIZE);
+                proto_send_end();
+            }
+
+            // EEPROM Read
+            else if (api == 2 && cmd == 1) {
+                uint16_t off = proto_get_u16(&cmdbuf);
+                uint8_t len = proto_get_u8(&cmdbuf);
+
+                proto_send_start(0);
+                if ((uint32_t)off + len > OPTION_EEPROM_SIZE)
+                    proto_send_u8(1);
+                else if (len > 48)
+                    proto_send_u8(2);
+                else {
+                    proto_send_u8(0);
+                    proto_send_pad(7);
+                    for (uint8_t i = 0; i < len; ++i)
+                        proto_send_u8(eeprom_read_byte((uint8_t *)off + i));
+                }
+                proto_send_end();
+            }
+
+            // EEPROM Write
+            else if (api == 2 && cmd == 2) {
+                uint16_t off = proto_get_u16(&cmdbuf);
+                uint8_t len = proto_get_u8(&cmdbuf);
+                proto_skip_pad(&cmdbuf, 5);
+
+                proto_send_start(0);
+                if ((uint32_t)off + len > OPTION_EEPROM_SIZE)
+                    proto_send_u8(1);
+                else if (len > 48)
+                    proto_send_u8(2);
+                else {
+                    for (uint8_t i = 0; i < len; ++i)
+                        eeprom_update_byte((uint8_t *)off + i,
+                                           proto_get_u8(&cmdbuf));
+                    proto_send_u8(0);
+                }
                 proto_send_end();
             }
 

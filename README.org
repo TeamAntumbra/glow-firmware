@@ -183,3 +183,71 @@ This setting is persistent and remains in effect until explicitly modified.
 Hardware boot switches, if applicable, override this setting.
 
 The response payload is empty.
+
+** EEPROM (2)
+
+This API allows access to the device's onboard byte-addressable nonvolatile data
+memory.
+
+The API identifier is 2.
+
+*** EEPROM Info (0)
+
+Report EEPROM size.
+
+The command payload is empty.
+
+Response payload:
+
+| Field | Size |                     |
+|-------+------+---------------------|
+| size  |    2 | EEPROM size (bytes) |
+
+*** EEPROM Read (0)
+
+Read a variable-size block from EEPROM.
+
+Command payload:
+
+| Field  | Size |                                |
+|--------+------+--------------------------------|
+| offset |    2 | Start offset to read (bytes)   |
+| length |    1 | Length to read (bytes); max 48 |
+
+Response payload:
+
+| Field     |   Size |                          |
+|-----------+--------+--------------------------|
+| status    |      1 | Indicate error condition |
+| (padding) |      7 | Ignored                  |
+| data      | max 48 | (if successful)          |
+
+If the specified region is out of bounds (=offset= + =length= > size given by
+=EEPROM Info=) or otherwise unacceptable, an error code is returned:
+
+| Code |                                                |
+|------+------------------------------------------------|
+|    0 | Success                                        |
+|    1 | Out of EEPROM bounds                           |
+|    2 | Specified =length= too large for packet format |
+
+*** EEPROM Write (0)
+
+Write a variable-size block to EEPROM.
+
+Command payload:
+
+| Field     |   Size |                                 |
+|-----------+--------+---------------------------------|
+| offset    |      2 | Start offset to write (bytes)   |
+| length    |      1 | Length to write (bytes); max 48 |
+| (padding) |      5 | Ignored                         |
+| data      | max 48 | Block to write                  |
+
+Response payload:
+
+| Field  | Size |                          |
+|--------+------+--------------------------|
+| status |    1 | Indicate error condition |
+
+=status= is as specified in =EEPROM Read=.

@@ -3,11 +3,9 @@
 #include <avr/eeprom.h>
 #include <util/atomic.h>
 
-#define EEPROM_SIZE 512
-
 bool option_find(uint32_t opt, uint8_t *len, uint8_t **start)
 {
-    for (uint16_t i = 0; i < EEPROM_SIZE;) {
+    for (uint16_t i = 0; i < OPTION_EEPROM_SIZE;) {
         uint8_t optb[4];
         ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
             eeprom_read_block(optb, (uint8_t *)i, 4);
