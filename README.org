@@ -159,3 +159,27 @@ in existence.
 The command payload is empty.
 
 The response payload contains the 56-byte unique identifier.
+
+* APIs
+
+** Boot Control (1)
+
+The Glow includes a firmware bootloader that can be used to update the main
+application without a flash programmer. While the bootloader can be activated at
+power-on by shorting pads on the board, it is often necessary to activate the
+bootloader without physical intervention. This API controls bootloader startup
+purely through software.
+
+The API identifier is 1.
+
+*** Set Boot (0)
+
+Select whether the bootloader or the main application will be started at
+power-on.
+
+The command payload is one byte. If the byte is zero, the main application will
+be started at power-on; if the byte is nonzero, the bootloader will be started.
+This setting is persistent and remains in effect until explicitly modified.
+Hardware boot switches, if applicable, override this setting.
+
+The response payload is empty.

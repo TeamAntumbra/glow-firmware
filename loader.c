@@ -38,7 +38,10 @@ int main(void)
     DDRB &= ~_BV(DDB2);
     PORTB |= _BV(PORTB2);
 
-    if (~PINB & _BV(PINB2))
+    uint8_t forceldr = 0;
+    option_get(0xb002104d, &forceldr, 1);
+
+    if (~PINB & _BV(PINB2) || forceldr)
         led_set_rgb(0, 0, 1);
     else {
         cli();
@@ -63,7 +66,7 @@ int main(void)
             // Query
             else if (api == 0 && cmd == 1) {
                 uint32_t qapi = proto_get_u32(&cmdbuf);
-                uint8_t sup = qapi == 0 ? 1 : 0;
+                uint8_t sup = qapi == 0 || qapi == 1 ? 1 : 0;
                 proto_send(0, &sup, 1);
             }
 
@@ -103,6 +106,14 @@ int main(void)
                     proto_send_u8(OSCCAL);
                 }
 
+                proto_send_end();
+            }
+
+            // Set Boot
+            else if (api == 1 && cmd == 0) {
+                uint8_t ldrflag = proto_get_u8(&cmdbuf) ? 1 : 0;
+                option_set(0xb002104d, &ldrflag, 1);
+                proto_send_start(0);
                 proto_send_end();
             }
 
