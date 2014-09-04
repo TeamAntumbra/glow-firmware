@@ -251,3 +251,114 @@ Response payload:
 | status |    1 | Indicate error condition |
 
 =status= is as specified in =EEPROM Read=.
+
+** Flash (3)
+
+This API allows access to the device's page-based nonvolatile program memory.
+
+Since flash pages are generally much larger than packets, I/O occurs in two
+stages using a page-sized intermediate buffer. To read a page, one command dumps
+the page into the buffer, and the buffer contents are then read out over
+multiple commands. To write a page, the buffer contents are loaded over multiple
+commands, and a final command writes the page to flash.
+
+Before the buffer has been fully populated, its contents are undefined. The read
+and write commands are assumed to share the same buffer, so they should not be
+interleaved.
+
+*** Flash Info (0)
+
+Report flash size.
+
+The command payload is empty.
+
+Response payload:
+
+| Field    | Size |                            |
+|----------+------+----------------------------|
+| pagesize |    2 | Size of flash pages/buffer |
+| numpages |    4 | Number of flash pages      |
+
+*** Flash Buffer Read (1)
+
+Read a variable-size block from page buffer.
+
+Command payload:
+
+| Field  | Size |                        |
+|--------+------+------------------------|
+| offset |    2 | Start offset to read   |
+| length |    1 | Length to read; max 48 |
+
+Response payload:
+
+| Field     |   Size |                          |
+|-----------+--------+--------------------------|
+| status    |      1 | Indicate error condition |
+| (padding) |      7 | Ignored                  |
+| data      | max 48 | (if successful)          |
+
+If the specified region is out of bounds or otherwise unacceptable, an error
+code is returned:
+
+| Code |                                                |
+|------+------------------------------------------------|
+|    0 | Success                                        |
+|    1 | Out of buffer bounds                           |
+|    2 | Specified =length= too large for packet format |
+
+*** Flash Buffer Write (2)
+
+Write a variable-size block to page buffer.
+
+Command payload:
+
+| Field     |   Size |                         |
+|-----------+--------+-------------------------|
+| offset    |      2 | Start offset to write   |
+| length    |      1 | Length to write; max 48 |
+| (padding) |      5 | Ignored                 |
+| data      | max 48 | Block to write          |
+
+Response payload:
+
+| Field  | Size |                          |
+|--------+------+--------------------------|
+| status |    1 | Indicate error condition |
+
+=status= is as specified in =Flash Buffer Read=.
+
+*** Flash Page Read (3)
+
+Load flash page into buffer.
+
+Command payload:
+
+| Field     | Size |                             |
+|-----------+------+-----------------------------|
+| pageindex |    4 | Index of flash page to load |
+
+Response payload:
+
+| Field  | Size |                          |
+|--------+------+--------------------------|
+| status |    1 | Indicate error condition |
+
+If the specified page index is out of bounds, =status= is set to 1. Otherwise,
+it is set to 0.
+
+*** Flash Page Write (4)
+
+Write page buffer to flash.
+
+| Field     | Size |                              |
+|-----------+------+------------------------------|
+| pageindex |    4 | Index of flash page to write |
+
+Response payload:
+
+| Field  | Size |                          |
+|--------+------+--------------------------|
+| status |    1 | Indicate error condition |
+
+=status= is as specified in =Flash Page Read=.

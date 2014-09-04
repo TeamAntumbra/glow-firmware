@@ -2,6 +2,7 @@
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
 #include <avr/eeprom.h>
+#include <string.h>
 
 #include "led.h"
 #include "rawusb.h"
@@ -11,6 +12,9 @@
 
 static const char impl_id[] PROGMEM = "Glow V3 ldr " ANTUMBRA_COMMIT_ID;
 static const uint8_t dev_ver[] PROGMEM = {ANTUMBRA_COMMIT_ID_HEX};
+
+static uint8_t flashpagebuf[SPM_PAGESIZE];
+#define NUM_FLASH_PAGES (LOADER_OFFSET / SPM_PAGESIZE)
 
 static const uint8_t *get_override_devid(uint8_t *lenout)
 {
@@ -68,7 +72,8 @@ int main(void)
                 uint32_t qapi = proto_get_u32(&cmdbuf);
                 uint8_t sup = (qapi == 0 ||
                                qapi == 1 ||
-                               qapi == 2) ? 1 : 0;
+                               qapi == 2 ||
+                               qapi == 3) ? 1 : 0;
                 proto_send(0, &sup, 1);
             }
 
@@ -161,6 +166,76 @@ int main(void)
                         eeprom_update_byte((uint8_t *)off + i,
                                            proto_get_u8(&cmdbuf));
                     proto_send_u8(0);
+                }
+                proto_send_end();
+            }
+
+            // Flash Info
+            else if (api == 3 && cmd == 0) {
+                proto_send_start(0);
+                proto_send_u16(SPM_PAGESIZE);
+                proto_send_u32(NUM_FLASH_PAGES);
+                proto_send_end();
+            }
+
+            // Flash Buffer Read
+            else if (api == 3 && cmd == 1) {
+                uint16_t off = proto_get_u16(&cmdbuf);
+                uint8_t len = proto_get_u8(&cmdbuf);
+
+                proto_send_start(0);
+                if ((uint32_t)off + len > sizeof flashpagebuf)
+                    proto_send_u8(1);
+                else if (len > 48)
+                    proto_send_u8(2);
+                else {
+                    proto_send_u8(0);
+                    proto_send_pad(7);
+                    proto_send_add(flashpagebuf + off, len);
+                }
+                proto_send_end();
+            }
+
+            // Flash Buffer Write
+            else if (api == 3 && cmd == 2) {
+                uint16_t off = proto_get_u16(&cmdbuf);
+                uint8_t len = proto_get_u8(&cmdbuf);
+                proto_skip_pad(&cmdbuf, 5);
+
+                proto_send_start(0);
+                if ((uint32_t)off + len > sizeof flashpagebuf)
+                    proto_send_u8(1);
+                else if (len > 48)
+                    proto_send_u8(2);
+                else {
+                    memcpy(flashpagebuf + off, cmdbuf, len);
+                    proto_send_u8(0);
+                }
+                proto_send_end();
+            }
+
+            // Flash Page Read
+            else if (api == 3 && cmd == 3) {
+                uint32_t pageidx = proto_get_u32(&cmdbuf);
+                proto_send_start(0);
+                if (pageidx >= NUM_FLASH_PAGES)
+                    proto_send_u8(1);
+                else {
+                    proto_send_u8(0);
+                    flash_read(pageidx, flashpagebuf);
+                }
+                proto_send_end();
+            }
+
+            // Flash Page Write
+            else if (api == 3 && cmd == 4) {
+                uint32_t pageidx = proto_get_u32(&cmdbuf);
+                proto_send_start(0);
+                if (pageidx >= NUM_FLASH_PAGES)
+                    proto_send_u8(1);
+                else {
+                    proto_send_u8(0);
+                    flash_write(pageidx, flashpagebuf);
                 }
                 proto_send_end();
             }

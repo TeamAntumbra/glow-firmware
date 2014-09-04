@@ -69,9 +69,12 @@ main.elf: LDLIBS = -lm
 main.elf: LDFLAGS += -Wl,--relax
 main.elf: main.o led.o proto.o rawusb.a
 
+LOADER_OFFSET = 0x2500
+
 # --relax interferes with jump tables
 loader.elf: LDFLAGS += -Wl,--no-relax
-loader.elf: LDFLAGS += -Wl,--section-start=.text=0x2700
+loader.elf: LDFLAGS += -Wl,--section-start=.text=$(LOADER_OFFSET)
 loader.elf: LDFLAGS += -Wl,--section-start=.fake_vectors=0x3e00,--undefined=_fake_vectors
 loader.elf: LDFLAGS += -Wl,--section-start=.flash_parts=0x3f00,--undefined=flash_write
+loader.elf: CFLAGS += -DLOADER_OFFSET=$(LOADER_OFFSET)
 loader.elf: loader.o fake-vectors.o led.o flash.o proto.o option.o rawusb.a
