@@ -215,7 +215,7 @@ Response payload:
 |-------+------+---------------------|
 | size  |    2 | EEPROM size (bytes) |
 
-*** EEPROM Read (0)
+*** EEPROM Read (1)
 
 Read a variable-size block from EEPROM.
 
@@ -243,7 +243,7 @@ If the specified region is out of bounds (=offset= + =length= > size given by
 |    1 | Out of EEPROM bounds                           |
 |    2 | Specified =length= too large for packet format |
 
-*** EEPROM Write (0)
+*** EEPROM Write (2)
 
 Write a variable-size block to EEPROM.
 
