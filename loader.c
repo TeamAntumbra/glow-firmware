@@ -35,6 +35,9 @@ static const uint8_t *get_override_devid(uint8_t *lenout)
 int main(void)
 {
     cli();
+    MCUSR = 0;
+    wdt_reset();
+    wdt_disable();
     led_init();
     MCUCR = _BV(IVCE);
     MCUCR = _BV(IVSEL);
@@ -122,7 +125,7 @@ int main(void)
                 proto_send_start(0);
                 proto_send_end();
 
-                wdt_enable(WDTO_15MS);
+                wdt_enable(WDTO_120MS);
                 while (1);
             }
 
