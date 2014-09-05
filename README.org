@@ -172,6 +172,14 @@ The command payload is empty.
 
 The response payload contains the 56-byte unique identifier.
 
+*** Reset (5)
+
+Perform a full hardware reset.
+
+The command payload is empty.
+
+The response payload is empty.
+
 * APIs
 
 ** Boot Control (1)

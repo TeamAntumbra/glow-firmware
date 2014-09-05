@@ -2,6 +2,7 @@
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
 #include <avr/eeprom.h>
+#include <avr/wdt.h>
 #include <string.h>
 
 #include "led.h"
@@ -114,6 +115,15 @@ int main(void)
                 }
 
                 proto_send_end();
+            }
+
+            // Reset
+            else if (api == 0 && cmd == 5) {
+                proto_send_start(0);
+                proto_send_end();
+
+                wdt_enable(WDTO_15MS);
+                while (1);
             }
 
             // Set Boot
