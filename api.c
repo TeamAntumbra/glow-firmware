@@ -13,7 +13,7 @@ static bool dispatch_list(const api_cmd_list *list, uint32_t api, uint32_t cmd,
     return false;
 }
 
-static const api_cmd_list **curlists;
+static const api_cmd_list **curlists = NULL;
 static size_t n_curlists = 0;
 
 bool api_get_supported(uint32_t api)
