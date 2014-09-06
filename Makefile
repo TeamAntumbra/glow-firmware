@@ -69,7 +69,7 @@ main.elf: LDLIBS = -lm
 main.elf: LDFLAGS += -Wl,--relax
 main.elf: main.o led.o proto.o rawusb.a
 
-LOADER_OFFSET = 0x2500
+LOADER_OFFSET = 0x2000
 
 # --relax interferes with jump tables
 loader.elf: LDFLAGS += -Wl,--no-relax
