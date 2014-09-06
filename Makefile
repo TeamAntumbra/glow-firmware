@@ -78,4 +78,4 @@ loader.elf: LDFLAGS += -Wl,--section-start=.fake_vectors=0x3e00,--undefined=_fak
 loader.elf: LDFLAGS += -Wl,--section-start=.flash_parts=0x3f00,--undefined=flash_write
 loader.elf: CFLAGS += -DLOADER_OFFSET=$(LOADER_OFFSET)
 loader.elf: loader.o fake-vectors.o led.o flash.o proto.o option.o rawusb.a \
-	api.o api-core.o
+	api.o api-core.o api-bootcontrol.o
