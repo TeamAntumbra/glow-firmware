@@ -50,13 +50,13 @@ static void cmd_write(const void *cmdbuf)
     proto_send_end();
 }
 
-static api_cmd cmds[] = {
+static const api_cmd cmds[] = {
     {2, 0, cmd_info},
     {2, 1, cmd_read},
     {2, 2, cmd_write},
 };
 
-api_cmd_list api_eeprom = {
+const api_cmd_list api_eeprom = {
     .ncmds = sizeof cmds / sizeof *cmds,
     .cmds = cmds,
 };

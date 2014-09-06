@@ -15,6 +15,6 @@ extern const uint8_t api_core_device_id_len;
 // User must invoke as soon as possible after boot
 void api_core_recover_reset(void);
 
-extern api_cmd_list api_core;
+extern const api_cmd_list api_core;
 
 #endif

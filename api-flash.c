@@ -77,7 +77,7 @@ static void cmd_page_write(const void *cmdbuf)
     proto_send_end();
 }
 
-static api_cmd cmds[] = {
+static const api_cmd cmds[] = {
     {3, 0, cmd_info},
     {3, 1, cmd_buf_read},
     {3, 2, cmd_buf_write},
@@ -85,7 +85,7 @@ static api_cmd cmds[] = {
     {3, 4, cmd_page_write},
 };
 
-api_cmd_list api_flash = {
+const api_cmd_list api_flash = {
     .ncmds = sizeof cmds / sizeof *cmds,
     .cmds = cmds,
 };

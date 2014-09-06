@@ -3,6 +3,6 @@
 
 #include "api.h"
 
-extern api_cmd_list api_flash;
+extern const api_cmd_list api_flash;
 
 #endif

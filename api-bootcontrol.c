@@ -10,11 +10,11 @@ static void cmd_setboot(const void *cmdbuf)
     proto_send_end();
 }
 
-static api_cmd cmds[] = {
+static const api_cmd cmds[] = {
     {1, 0, cmd_setboot},
 };
 
-api_cmd_list api_bootcontrol = {
+const api_cmd_list api_bootcontrol = {
     .ncmds = sizeof cmds / sizeof *cmds,
     .cmds = cmds,
 };

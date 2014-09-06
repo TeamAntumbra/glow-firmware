@@ -95,7 +95,7 @@ void api_core_recover_reset(void)
     }
 }
 
-static api_cmd cmds[] = {
+static const api_cmd cmds[] = {
     {0, 0, cmd_echo},
     {0, 1, cmd_ask},
     {0, 2, cmd_diagnostic},
@@ -104,7 +104,7 @@ static api_cmd cmds[] = {
     {0, 5, cmd_reset},
 };
 
-api_cmd_list api_core = {
+const api_cmd_list api_core = {
     .ncmds = sizeof cmds / sizeof *cmds,
     .cmds = cmds,
 };
