@@ -19,7 +19,7 @@ typedef struct {
 } api_cmd_list;
 
 /* Not reentrant */
-bool api_dispatch_packet(const api_cmd_list *lists, size_t nlists);
+bool api_dispatch_packet(const api_cmd_list **lists, size_t nlists);
 
 /* Not to be called outside api_dispatch_packet */
 bool api_get_supported(uint32_t api);
