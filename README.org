@@ -389,3 +389,30 @@ Response payload:
 | status |    1 | Indicate error condition |
 
 =status= is as specified in =Flash Page Read=.
+
+** Light (4)
+
+This API controls a single RGB LED. The color is not set directly through this
+API for performance reasons; instead, colors are streamed to a dedicated USB
+endpoint.
+
+*** Get Endpoint (0)
+
+Produce the address of the USB endpoint for color streaming.
+
+The command payload is empty.
+
+Response payload:
+
+| Field    | Size |                  |
+|----------+------+------------------|
+| endpoint |    1 | endpoint address |
+
+The endpoint address must refer to a bulk OUT endpoint (high bit 0). It expects
+6-byte single-packet transfers with the following structure:
+
+| Field | Size |                 |
+|-------+------+-----------------|
+| red   |    2 | red component   |
+| green |    2 | green component |
+| blue  |    2 | blue component  |
