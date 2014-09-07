@@ -2,6 +2,13 @@
 
 * Hardware
 
+** Chip configuration
+
+| lfuse |       0xff |
+| hfuse |       0x9e |
+| efuse | 0xc8(0xf8) |
+| lock  |       0xff |
+
 ** Pins
 
 | PB1(SCLK) | ISP header: SCK       |
