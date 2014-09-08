@@ -67,7 +67,8 @@ rawusb.a: .FORCE
 
 main.elf: LDLIBS = -lm
 main.elf: LDFLAGS += -Wl,--relax
-main.elf: main.o led.o proto.o rawusb.a
+main.elf: main.o led.o proto.o rawusb.a option.o \
+	api.o api-core.o api-bootcontrol.o api-eeprom.o api-light.o
 
 LOADER_OFFSET = 0x2000
 

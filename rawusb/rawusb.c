@@ -9,6 +9,7 @@ struct cfgdescriptor {
 
     USB_Descriptor_Endpoint_t cfoutep;
     USB_Descriptor_Endpoint_t cfinep;
+    USB_Descriptor_Endpoint_t ledoutep;
 };
 
 const USB_Descriptor_Device_t PROGMEM devdes = {
@@ -74,6 +75,16 @@ const struct cfgdescriptor PROGMEM cfgdes = {
         .EndpointAddress = 0x82,
         .Attributes = EP_TYPE_BULK | ENDPOINT_ATTR_NO_SYNC | ENDPOINT_USAGE_DATA,
         .EndpointSize = 64,
+        .PollingIntervalMS = 0x05,
+    },
+    .ledoutep = {
+        .Header = {
+            .Size = sizeof (USB_Descriptor_Endpoint_t),
+            .Type = DTYPE_Endpoint,
+        },
+        .EndpointAddress = 0x03,
+        .Attributes = EP_TYPE_BULK | ENDPOINT_ATTR_NO_SYNC | ENDPOINT_USAGE_DATA,
+        .EndpointSize = 8,
         .PollingIntervalMS = 0x05,
     },
 };

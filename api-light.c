@@ -1,4 +1,5 @@
 #include "api-light.h"
+#include "proto.h"
 
 static void cmd_getendpoint(const void *cmdbuf)
 {
@@ -9,7 +10,7 @@ static const api_cmd cmds[] = {
     {4, 0, cmd_getendpoint},
 };
 
-const api_cmd_list api_core = {
+const api_cmd_list api_light = {
     .ncmds = sizeof cmds / sizeof *cmds,
     .cmds = cmds,
 };
