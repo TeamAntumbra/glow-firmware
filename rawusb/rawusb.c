@@ -51,7 +51,7 @@ const struct cfgdescriptor PROGMEM cfgdes = {
         },
         .InterfaceNumber = 0,
         .AlternateSetting = 0,
-        .TotalEndpoints = 2,
+        .TotalEndpoints = 3,
         .Class = 0xff,
         .SubClass = 0xff,
         .Protocol = 0xff,
@@ -144,6 +144,7 @@ void EVENT_USB_Device_ConfigurationChanged(void)
 {
 	Endpoint_ConfigureEndpoint(0x01, EP_TYPE_BULK, 64, 1);
 	Endpoint_ConfigureEndpoint(0x82, EP_TYPE_BULK, 64, 1);
+	Endpoint_ConfigureEndpoint(0x03, EP_TYPE_BULK, 8, 1);
 }
 void EVENT_USB_Device_ControlRequest(void) {}
 
