@@ -38,7 +38,7 @@ int main(void)
     DDRB &= ~_BV(DDB2);
     PORTB |= _BV(PORTB2);
 
-    uint8_t forceldr = 0;
+    uint8_t forceldr = 1;
     option_get(0xb002104d, &forceldr, 1);
 
     if (~PINB & _BV(PINB2) || forceldr)
