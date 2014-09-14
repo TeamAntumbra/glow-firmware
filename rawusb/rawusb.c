@@ -91,7 +91,7 @@ const struct cfgdescriptor PROGMEM cfgdes = {
 
 const USB_Descriptor_String_t PROGMEM langstr = USB_STRING_DESCRIPTOR_ARRAY(LANGUAGE_ID_ENG);
 const USB_Descriptor_String_t PROGMEM manustr = USB_STRING_DESCRIPTOR(L"Antumbra");
-const USB_Descriptor_String_t PROGMEM prodstr = USB_STRING_DESCRIPTOR(L"Glow test");
+const USB_Descriptor_String_t PROGMEM prodstr = USB_STRING_DESCRIPTOR(L"Glow");
 const USB_Descriptor_String_t PROGMEM seristr = USB_STRING_DESCRIPTOR(L"Superlative Edition");
 const USB_Descriptor_String_t PROGMEM magic = USB_STRING_DESCRIPTOR(
     L"io.antumbra.glowapi/01/82/io.antumbra.glow.v3"
