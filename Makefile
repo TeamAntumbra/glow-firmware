@@ -13,8 +13,8 @@ CFLAGS := \
 	-fpack-struct \
 	-fshort-enums \
 	\
-	-DANTUMBRA_COMMIT_ID='"$(shell git rev-parse HEAD)"' \
-	-DANTUMBRA_COMMIT_ID_HEX=$(shell git rev-parse HEAD | sed 's/../0x&,/g')
+	-DANTUMBRA_COMMIT_ID='"$(shell git rev-parse HEAD | head -c 16)"' \
+	-DANTUMBRA_COMMIT_ID_HEX=$(shell git rev-parse HEAD | head -c 16 | sed 's/../0x&,/g')
 
 LD = avr-gcc
 LDFLAGS = -mmcu=$(mcu) -Wl,--gc-sections
