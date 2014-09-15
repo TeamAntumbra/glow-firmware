@@ -11,7 +11,7 @@
 #include "api-eeprom.h"
 #include "api-light.h"
 
-static const char impl_id[] PROGMEM = "Glow v3 " ANTUMBRA_COMMIT_ID;
+static const char impl_id[] PROGMEM = "Glow v3 beta " ANTUMBRA_COMMIT_ID;
 static const uint8_t dev_id[] PROGMEM = {ANTUMBRA_COMMIT_ID_HEX};
 
 const char *api_core_implementation_id = impl_id;
