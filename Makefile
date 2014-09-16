@@ -29,7 +29,7 @@ ASFLAGS = -mmcu=$(mcu)
 MAKEREC = env -u MFLAGS -u MAKEFLAGS -u MAKELEVEL $(MAKE) -s
 
 .PHONY: all
-all: main.bin loader.hex default.eep
+all: main.bin loader.hex default.eep combined.hex combined.eep
 
 %.elf:
 	$(LD) $(LDFLAGS) -o $@ $^ $(LDLIBS)
@@ -45,17 +45,20 @@ all: main.bin loader.hex default.eep
 
 .PHONY: clean
 clean:
-	-rm *.o *.a *.elf *.hex *.bin *.eep
+	-rm *.o *.a *.elf *.hex *.bin *.eep combined.eep.txt
 	$(MAKEREC) -C rawusb clean
 	-rm rawusb/librawusb.a
 
-.PHONY: fuse-dragonisp flash-dragonisp
+.PHONY: fuse-dragonisp flash-loader-dragonisp flash-combined-dragonisp
 fuse-dragonisp:
 	avrdude -C +avrdude-m16u4.conf -c dragon_isp -P usb -p atmega16u4 -B 10 \
 		-U lfuse:w:0xFF:m -U hfuse:w:0x9E:m -U efuse:w:0xC8:m
-flash-dragonisp: loader.hex default.eep
+flash-loader-dragonisp: loader.hex default.eep
 	avrdude -C +avrdude-m16u4.conf -c dragon_isp -P usb -p atmega16u4 -B 0.5 \
 		-U flash:w:loader.hex:i -U eeprom:w:default.eep:r
+flash-combined-dragonisp: combined.hex combined.eep
+	avrdude -C +avrdude-m16u4.conf -c dragon_isp -P usb -p atmega16u4 -B 0.5 \
+		-U flash:w:combined.hex:i -U eeprom:w:combined.eep:r
 
 %.a:
 	$(AR) rcs $@ $^
@@ -80,3 +83,9 @@ loader.elf: LDFLAGS += -Wl,--section-start=.flash_parts=0x3f00,--undefined=flash
 loader.elf: CFLAGS += -DLOADER_OFFSET=$(LOADER_OFFSET)
 loader.elf: loader.o fake-vectors.o led.o flash.o proto.o option.o rawusb.a \
 	api.o api-core.o api-bootcontrol.o api-eeprom.o api-flash.o
+
+combined.eep.txt: default.eep.txt
+	sed 's/^\s*b002104d\s\s*01\s\s*01\s*$$/b002104d 01 00/' $^ > $@
+
+combined.hex: main.hex loader.hex
+	(grep -hv '^:00000001FF' $^; printf ':00000001FF\r\n') > $@

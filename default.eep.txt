@@ -2,6 +2,8 @@
 #
 # 00: do not force bootloader
 # XX: force bootloader
+#
+# This line is Makefile magic.
 b002104d 01 01
 
 # Override 56-byte unique ID
