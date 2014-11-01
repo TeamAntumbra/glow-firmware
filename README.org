@@ -683,3 +683,14 @@ The endpoint address must refer to a bulk OUT endpoint (high bit 0). It expects
 | red   |    2 | red component   |
 | green |    2 | green component |
 | blue  |    2 | blue component  |
+
+A component value shall affect the LED brightness as though that LED component
+is driven by PWM and the component value is proportional to the duty cycle. A
+value of 65535 indicates maximum brightness (which may be less than 100% duty
+cycle due to thermal restrictions or power consumption), while a value of 0
+indicates that the component is fully off.
+
+Since perceived light intensity is logarithmic with the duty cycle, it may be
+desirable for the host to exponentially scale the given RGB component values
+based on the desired perceived brightness. The device shall perform no such
+scaling on its own.
