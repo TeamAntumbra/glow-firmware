@@ -690,7 +690,9 @@ value of 65535 indicates maximum brightness (which may be less than 100% duty
 cycle due to thermal restrictions or power consumption), while a value of 0
 indicates that the component is fully off.
 
-Since perceived light intensity is logarithmic with the duty cycle, it may be
-desirable for the host to exponentially scale the given RGB component values
-based on the desired perceived brightness. The device shall perform no such
-scaling on its own.
+Since perceived light intensity is logarithmic with the actual intensity, it may
+be desirable for the host to exponentially scale the given RGB component values
+based on the desired perceived brightness. Additionally, equivalent intensities
+are perceived differently for each color component, so the host may scale the
+components differently as well. The device shall perform no scaling or
+adjustment on its own.
