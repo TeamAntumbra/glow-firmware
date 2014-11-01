@@ -288,8 +288,9 @@ Use ~antumbratool~:
 
 * Protocol
 
-Glow devices speak a simple, extensible protocol over USB. No USB class,
-subclass, or protocol is used; communication occurs directly with raw endpoints.
+Glow devices speak a simple, extensible protocol over USB. The protocol is not
+implemented on top of any existing USB Class (such as HID), SubClass, or
+Protocol.
 
 ** Device identification
 
