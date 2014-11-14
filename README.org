@@ -11,13 +11,12 @@
 
 ** Pins
 
-| PB1(SCLK) | ISP header: SCK       |
-| PB2(MOSI) | ISP header: MOSI      |
-| PB3(MISO) | ISP header: MISO      |
-| PB5(OC1A) | LED red channel FET   |
-| PB6(OC1B) | LED green channel FET |
-| PB7(OC1C) | LED blue channel FET  |
-| PE2(~HWB) | Bootloader switch     |
+| PB1(SCLK) | ISP header: SCK                      |
+| PB2(MOSI) | ISP header: MOSI / bootloader switch |
+| PB3(MISO) | ISP header: MISO                     |
+| PB5(OC1A) | LED red channel FET                  |
+| PB6(OC1B) | LED green channel FET                |
+| PB7(OC1C) | LED blue channel FET                 |
 
 * Flashing device firmware
 
