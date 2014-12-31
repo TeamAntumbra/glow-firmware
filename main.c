@@ -10,6 +10,7 @@
 #include "api-bootcontrol.h"
 #include "api-eeprom.h"
 #include "api-light.h"
+#include "api-temp.h"
 
 static const char impl_id[] PROGMEM = "Glow v3 beta " ANTUMBRA_COMMIT_ID;
 static const uint8_t dev_id[] PROGMEM = {ANTUMBRA_COMMIT_ID_HEX};
@@ -27,6 +28,7 @@ static const api_cmd_list *use_apis[] = {
     &api_bootcontrol,
     &api_eeprom,
     &api_light,
+    &api_temp,
 };
 
 int main(void)
