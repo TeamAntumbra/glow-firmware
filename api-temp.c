@@ -21,6 +21,9 @@ static void cmd_readcal(const void *cmdbuf)
 
 static void cmd_writecal(const void *cmdbuf)
 {
+    option_set(0x54454d50, cmdbuf, 16);
+    proto_send_start(0);
+    proto_send_end();
 }
 
 static const api_cmd cmds[] = {
