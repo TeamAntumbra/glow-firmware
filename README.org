@@ -712,3 +712,65 @@ based on the desired perceived brightness. Additionally, equivalent intensities
 are perceived differently for each color component, so the host may scale the
 components differently as well. The device shall perform no scaling or
 adjustment on its own.
+
+** Temperature (5)
+
+This API provides access to the device's onboard temperature sensor.
+
+*** Read Raw Sensor (0)
+
+Read raw sensor output. The value is unitless and uncalibrated.
+
+The command payload is empty.
+
+Response payload:
+
+| Field       | Size |                      |
+|-------------+------+----------------------|
+| sensorvalue |    4 | current sensor value |
+
+*** Read Calibrated Temperature (1)
+
+Read the current temperature, calibrated based on the stored calibration data.
+
+The command payload is empty.
+
+Response payload:
+
+| Field       | Size |                                   |
+|-------------+------+-----------------------------------|
+| temperature |    4 | current temperature (millikelvin) |
+
+*** Read Calibration (2)
+
+Read the stored calibration data. Conceptually, this exists as two measurements
+taken at different temperatures. Each measurement contains the actual
+temperature and the raw sensor value for that temperature. When a calibrated
+temperature is to be retrieved, the current sensor value is fitted to the line
+given by the two calibration points.
+
+The command payload is empty.
+
+Response payload:
+
+| Field    | Size |                                              |
+|----------+------+----------------------------------------------|
+| a_sensor |    4 | first point sensor value                     |
+| a_temp   |    4 | first point temperature value (millikelvin)  |
+| b_sensor |    4 | second point sensor value                    |
+| b_temp   |    4 | second point temperature value (millikelvin) |
+
+*** Write Calibration (3)
+
+Update stored calibration data. (As described by =Read Calibration=.)
+
+Command payload:
+
+| Field    | Size |                                              |
+|----------+------+----------------------------------------------|
+| a_sensor |    4 | first point sensor value                     |
+| a_temp   |    4 | first point temperature value (millikelvin)  |
+| b_sensor |    4 | second point sensor value                    |
+| b_temp   |    4 | second point temperature value (millikelvin) |
+
+The response payload is empty.
