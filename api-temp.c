@@ -13,6 +13,10 @@ static void cmd_readtemp(const void *cmdbuf)
 
 static void cmd_readcal(const void *cmdbuf)
 {
+    uint8_t outbuf[16];
+    memset(outbuf, 0, sizeof outbuf);
+    option_get(0x54454d50, outbuf, sizeof outbuf);
+    proto_send(0, outbuf, sizeof outbuf);
 }
 
 static void cmd_writecal(const void *cmdbuf)
