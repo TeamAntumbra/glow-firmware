@@ -47,7 +47,7 @@ static const api_cmd cmds[] = {
     {5, 3, cmd_writecal},
 };
 
-const api_cmd_list api_core = {
+const api_cmd_list api_temp = {
     .ncmds = sizeof cmds / sizeof *cmds,
     .cmds = cmds,
 };
