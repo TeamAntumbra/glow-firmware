@@ -2,9 +2,23 @@
 #include "option.h"
 #include "proto.h"
 #include <string.h>
+#include <avr/io.h>
+
+void api_temp_init(void)
+{
+    ADMUX = _BV(REFS1) | _BV(REFS0) | _BV(MUX2) | _BV(MUX1) | _BV(MUX0);
+    ADCSRB = _BV(MUX5);
+    ADCSRA = _BV(ADEN) | _BV(ADATE) | _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0);
+}
 
 static void cmd_readsensor(const void *cmdbuf)
 {
+    uint16_t val = ADCL;
+    val |= (uint16_t)ADCH << 8;
+    proto_send_start(0);
+    proto_send_pad(2);
+    proto_send_u16(val);
+    proto_send_end();
 }
 
 static void cmd_readtemp(const void *cmdbuf)

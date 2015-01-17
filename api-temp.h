@@ -3,6 +3,9 @@
 
 #include "api.h"
 
+// Initialize temperature sensor.
+void api_temp_init(void);
+
 extern const api_cmd_list api_temp;
 
 #endif
