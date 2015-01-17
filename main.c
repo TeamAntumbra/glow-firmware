@@ -13,10 +13,12 @@
 
 static const char impl_id[] PROGMEM = "Glow v3 beta " ANTUMBRA_COMMIT_ID;
 static const uint8_t dev_id[] PROGMEM = {ANTUMBRA_COMMIT_ID_HEX};
+static const char hw_id[] PROGMEM = "io.antumbra.glow.v3";
 
 const char *api_core_implementation_id = impl_id;
 const uint8_t *api_core_device_id = dev_id;
 const uint8_t api_core_device_id_len = sizeof dev_id;
+const char *api_core_hardware_id = hw_id;
 
 const uint8_t api_light_endpoint = 0x03;
 

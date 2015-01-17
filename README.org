@@ -454,6 +454,22 @@ The command payload is empty.
 
 The response payload is empty.
 
+*** Hardware ID (6)
+
+Produce human-readable information that identifies the hardware type. This is
+distinct from the Implementation ID in that multiple firmware implementations
+may target the same hardware type, and each such implementation should report
+the same hardware type.
+
+Known hardware types:
+
+- ~io.antumbra.glow.v3~: Original Antumbra Glow public-release board. ATmega16u4
+  microcontroller, micro-USB power and control, 1.5 x 1.5 inches.
+
+The command payload is empty.
+
+The response payload is as with the Implementation ID.
+
 * APIs
 
 ** Boot Control (1)

@@ -11,6 +11,7 @@ extern const char *api_core_implementation_id; // in PROGMEM
    signature bytes and OSCCAL to this array and taking the first 56 bytes. */
 extern const uint8_t *api_core_device_id; // in PROGMEM
 extern const uint8_t api_core_device_id_len;
+extern const char *api_core_hardware_id; // in PROGMEM
 
 // User must invoke as soon as possible after boot
 void api_core_recover_reset(void);

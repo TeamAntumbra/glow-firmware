@@ -95,6 +95,18 @@ void api_core_recover_reset(void)
     }
 }
 
+static void cmd_hwid(const void *cmdbuf)
+{
+    proto_send_start(0);
+    for (int i = 0; i < 56; ++i) {
+        char c = pgm_read_byte(api_core_hardware_id + i);
+        proto_send_u8(c);
+        if (!c)
+            break;
+    }
+    proto_send_end();
+}
+
 static const api_cmd cmds[] = {
     {0, 0, cmd_echo},
     {0, 1, cmd_ask},
@@ -102,6 +114,7 @@ static const api_cmd cmds[] = {
     {0, 3, cmd_implid},
     {0, 4, cmd_devid},
     {0, 5, cmd_reset},
+    {0, 6, cmd_hwid},
 };
 
 const api_cmd_list api_core = {
