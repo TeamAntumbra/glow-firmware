@@ -8,6 +8,8 @@
 #include <avr/eeprom.h>
 #include <util/atomic.h>
 
+#define DEVID_OPTION_ID 0x4f564944 // OVID
+
 static void cmd_echo(const void *cmdbuf)
 {
     proto_send(0, cmdbuf, 56);
@@ -42,7 +44,7 @@ static const uint8_t *get_override_devid(uint8_t *lenout)
 {
     uint8_t len;
     uint8_t *start;
-    if (!option_find(0x5370001d, &len, &start) || len == 0)
+    if (!option_find(DEVID_OPTION_ID, &len, &start) || len == 0)
         return NULL;
 
     uint8_t overridep = eeprom_read_byte(start);

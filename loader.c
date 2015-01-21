@@ -40,10 +40,7 @@ int main(void)
     DDRB &= ~_BV(DDB2);
     PORTB |= _BV(PORTB2);
 
-    uint8_t forceldr = 1;
-    option_get(0xb002104d, &forceldr, 1);
-
-    if (~PINB & _BV(PINB2) || forceldr)
+    if (~PINB & _BV(PINB2) || api_bootcontrol_loaderforced())
         led_set_rgb(0, 0, 1);
     else {
         cli();
