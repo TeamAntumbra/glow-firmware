@@ -39,6 +39,11 @@ static uint16_t readsensor(void)
     return val;
 }
 
+uint32_t api_temp_read(void)
+{
+    return (readsensor() - a_sensor) * (b_temp - a_temp) / (b_sensor - a_sensor) + a_temp;
+}
+
 static void cmd_readsensor(const void *cmdbuf)
 {
     proto_send_start(0);
@@ -49,7 +54,7 @@ static void cmd_readsensor(const void *cmdbuf)
 static void cmd_readtemp(const void *cmdbuf)
 {
     proto_send_start(0);
-    proto_send_u32((readsensor() - a_sensor) * (b_temp - a_temp) / (b_sensor - a_sensor) + a_temp);
+    proto_send_u32(api_temp_read());
     proto_send_end();
 }
 
