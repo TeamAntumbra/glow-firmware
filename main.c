@@ -37,6 +37,7 @@ int main(void)
     api_core_recover_reset();
     led_init();
     led_set_rgb(0, 1, 0);
+    api_temp_init();
     sei();
 
     rawusb_init();
