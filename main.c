@@ -31,7 +31,8 @@ static const api_cmd_list *use_apis[] = {
     &api_temp,
 };
 
-static uint16_t curr, curg, curb;
+static uint16_t curr, curg = 1, curb;
+static bool overheat;
 
 int main(void)
 {
@@ -45,14 +46,27 @@ int main(void)
     rawusb_init();
 
     uint8_t inrgb[6];
+    uint16_t tempcount = 0;
     while (1) {
         rawusb_tick();
         if (rawusb_recv_bulk(0x03, inrgb, sizeof inrgb)) {
             curr = (uint16_t)inrgb[0] << 8 | (uint16_t)inrgb[1];
             curg = (uint16_t)inrgb[2] << 8 | (uint16_t)inrgb[3];
             curb = (uint16_t)inrgb[4] << 8 | (uint16_t)inrgb[5];
-            led_set_rgb(curr, curg, curb);
+            if (!overheat)
+                led_set_rgb(curr, curg, curb);
         }
         api_dispatch_packet(use_apis, sizeof use_apis / sizeof *use_apis);
+
+        if (++tempcount == 0) {
+            if (!overheat && api_temp_read() > 363150) { // 90 C
+                overheat = true;
+                led_set_rgb(1, 0, 0);
+            }
+            else if (overheat && api_temp_read() < 353150) { // 80 C
+                overheat = false;
+                led_set_rgb(curr, curg, curb);
+            }
+        }
     }
 }
