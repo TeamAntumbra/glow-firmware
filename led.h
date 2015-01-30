@@ -4,9 +4,6 @@
 #include <stdint.h>
 
 void led_init(void);
-void led_set_rgb(uint8_t r, uint8_t g, uint8_t b);
-
-uint8_t led_get_mult(void);
-void led_set_mult(uint8_t m);
+void led_set_rgb(uint16_t r, uint16_t g, uint16_t b);
 
 #endif

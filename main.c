@@ -31,6 +31,8 @@ static const api_cmd_list *use_apis[] = {
     &api_temp,
 };
 
+static uint16_t curr, curg, curb;
+
 int main(void)
 {
     cli();
@@ -46,12 +48,10 @@ int main(void)
     while (1) {
         rawusb_tick();
         if (rawusb_recv_bulk(0x03, inrgb, sizeof inrgb)) {
-            uint16_t inr = (uint16_t)inrgb[0] << 8 | (uint16_t)inrgb[1],
-                     ing = (uint16_t)inrgb[2] << 8 | (uint16_t)inrgb[3],
-                     inb = (uint16_t)inrgb[4] << 8 | (uint16_t)inrgb[5];
-            led_set_rgb((uint32_t)inr * 0xff / 0xffff,
-                        (uint32_t)ing * 0xff / 0xffff,
-                        (uint32_t)inb * 0xff / 0xffff);
+            curr = (uint16_t)inrgb[0] << 8 | (uint16_t)inrgb[1];
+            curg = (uint16_t)inrgb[2] << 8 | (uint16_t)inrgb[3];
+            curb = (uint16_t)inrgb[4] << 8 | (uint16_t)inrgb[5];
+            led_set_rgb(curr, curg, curb);
         }
         api_dispatch_packet(use_apis, sizeof use_apis / sizeof *use_apis);
     }
