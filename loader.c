@@ -28,6 +28,8 @@ static const api_cmd_list *use_apis[] = {
     &api_flash,
 };
 
+void api_core_fill_diagnostic(uint8_t *diagbuf) {}
+
 int main(void)
 {
     cli();

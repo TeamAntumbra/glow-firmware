@@ -2,6 +2,7 @@
 #include "option.h"
 #include "proto.h"
 
+#include <string.h>
 #include <avr/io.h>
 #include <avr/wdt.h>
 #include <avr/pgmspace.h>
@@ -23,8 +24,12 @@ static void cmd_ask(const void *cmdbuf)
 
 static void cmd_diagnostic(const void *cmdbuf)
 {
+    uint8_t diagbuf[56];
+    memset(diagbuf, 0, sizeof diagbuf);
+    api_core_fill_diagnostic(diagbuf);
+
     proto_send_start(0);
-    proto_send_pad(56);
+    proto_send_add(diagbuf, sizeof diagbuf);
     proto_send_end();
 }
 

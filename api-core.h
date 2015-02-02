@@ -12,6 +12,8 @@ extern const char *api_core_implementation_id; // in PROGMEM
 extern const uint8_t *api_core_device_id; // in PROGMEM
 extern const uint8_t api_core_device_id_len;
 extern const char *api_core_hardware_id; // in PROGMEM
+// Invoked by Core API to fill diagnostic buffer; user must implement. Buffer starts zero-filled.
+void api_core_fill_diagnostic(uint8_t *diagbuf);
 
 // User must invoke as soon as possible after boot
 void api_core_recover_reset(void);

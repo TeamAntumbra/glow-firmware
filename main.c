@@ -1,6 +1,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
+#include <string.h>
 
 #include "led.h"
 #include "rawusb.h"
@@ -33,6 +34,12 @@ static const api_cmd_list *use_apis[] = {
 
 static uint16_t curr, curg = 1, curb;
 static bool overheat;
+
+void api_core_fill_diagnostic(uint8_t *diagbuf)
+{
+    if (overheat)
+        memcpy(diagbuf, "OVHT", 4);
+}
 
 int main(void)
 {
