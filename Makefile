@@ -85,7 +85,7 @@ loader.elf: loader.o fake-vectors.o led.o flash.o proto.o option.o rawusb.a \
 	api.o api-core.o api-bootcontrol.o api-eeprom.o api-flash.o
 
 combined.eep.txt: default.eep.txt
-	sed 's/^\s*b002104d\s\s*01\s\s*01\s*$$/b002104d 01 00/' $^ > $@
+	sed 's/^\s*424f4f54\s\s*01\s\s*01\s*$$/424f4f54 01 00/' $^ > $@
 
 combined.hex: main.hex loader.hex
 	(grep -hv '^:00000001FF' $^; printf ':00000001FF\r\n') > $@
