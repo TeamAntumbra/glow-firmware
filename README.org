@@ -427,8 +427,8 @@ assumed to indicate the existence of at least one problem condition.
 
 *** Implementation ID (3)
 
-Produce human-readable information that identifies the device implementation. A
-reverse domain name is one possible form.
+Produce human-readable information that identifies the firmware implementation.
+A reverse domain name is one possible form.
 
 The command payload is empty.
 
