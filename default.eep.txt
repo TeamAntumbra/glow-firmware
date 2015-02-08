@@ -30,5 +30,18 @@
 # (u8) denominator
 4d554c54 02 04 05
 
+# Thermal shutdown parameters
+#
+# Thresholds:
+# (u32) NORMAL state downward
+# (u32) RESTRICT state upward
+# (u32) RESTRICT state downward
+# (u32) SHUTDOWN state upward
+#
+# RESTRICT state LED multiplier:
+# (u8) numerator
+# (u8) denominator
+4f564854 12 00053c6e 00057706 00058a8e 00059e16 05 08
+
 # Option end marker
 ffffffff
