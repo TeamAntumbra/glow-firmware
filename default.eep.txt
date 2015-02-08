@@ -24,5 +24,11 @@
 # (u32) point B temperature (mK)
 5443414c 10 0000012c 00047888 00000168 00057670
 
+# Master LED multiplier
+#
+# (u8) numerator
+# (u8) denominator
+4d554c54 02 04 05
+
 # Option end marker
 ffffffff
