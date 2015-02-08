@@ -18,10 +18,10 @@
 
 # Temperature sensor calibration
 #
-# (u4) point A sensor value
-# (u4) point A temperature (mK)
-# (u4) point B sensor value
-# (u4) point B temperature (mK)
+# (u32) point A sensor value
+# (u32) point A temperature (mK)
+# (u32) point B sensor value
+# (u32) point B temperature (mK)
 5443414c 10 0000012c 00047888 00000168 00057670
 
 # Option end marker
