@@ -27,9 +27,9 @@ void led_init(void)
 void led_set_rgb(uint16_t r, uint16_t g, uint16_t b)
 {
     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-        OCR1A = ((uint32_t)r * 3 / 4) >> 6;
-        OCR1B = ((uint32_t)g * 3 / 4) >> 6;
-        OCR1C = ((uint32_t)b * 3 / 4) >> 6;
+        OCR1A = ((uint32_t)r * 4 / 5) >> 6;
+        OCR1B = ((uint32_t)g * 4 / 5) >> 6;
+        OCR1C = ((uint32_t)b * 4 / 5) >> 6;
 
         /* 0% duty cycle is not typically possible with AVR fast PWM. Special-case 0 to tri-state the sink pins. */
         DDRB = r == 0 ? DDRB & ~_BV(DDB5) : DDRB | _BV(DDB5);
