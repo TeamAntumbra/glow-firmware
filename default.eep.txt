@@ -32,7 +32,7 @@
 
 # Thermal shutdown parameters
 #
-# Thresholds:
+# Thresholds (mK):
 # (u32) NORMAL state downward
 # (u32) RESTRICT state upward
 # (u32) RESTRICT state downward
