@@ -6,7 +6,7 @@
 
 #define TEMPCAL_OPTION_ID 0x5443414c // TCAL
 
-static uint32_t a_sensor = 0, a_temp = 0, b_sensor = 0, b_temp = 0;
+static int32_t a_sensor = 0, a_temp = 0, b_sensor = 0, b_temp = 0;
 
 static uint32_t convu32(uint8_t *bufle)
 {
@@ -41,7 +41,7 @@ static uint16_t readsensor(void)
 
 uint32_t api_temp_read(void)
 {
-    return (readsensor() - a_sensor) * (b_temp - a_temp) / (b_sensor - a_sensor) + a_temp;
+    return ((int32_t)readsensor() - a_sensor) * (b_temp - a_temp) / (b_sensor - a_sensor) + a_temp;
 }
 
 static void cmd_readsensor(const void *cmdbuf)
