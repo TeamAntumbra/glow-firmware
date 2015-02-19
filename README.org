@@ -1,5 +1,29 @@
 #+options: html-postamble:nil
 
+* Building
+
+You need:
+
+- AVR toolchain: avr-binutils, avr-gcc, avr-libc.
+- GNU make.
+- LUFA (http://www.fourwalledcubicle.com/LUFA.php), extracted with top-level
+  directory ~LUFA-xxxxxx/~ as ~lufa/~. Version 140302 is known to work.
+
+Run:
+
+: make
+
+You will get:
+
+- Bootloader firmware in Intel HEX format (~loader.hex~)
+- Application firmware in Intel HEX (~main.hex~) and raw binary (~main.bin~)
+  format
+- Combined bootloader and application firmware in Intel HEX format
+  (~combined.hex~)
+- EEPROM contents (~default.eep~ and ~combined.eep~)
+
+Firmware builds may be downloaded from [[https://dev.antumbra.io/build/rawtumbra/]].
+
 * Hardware
 
 ** Chip configuration
@@ -19,18 +43,6 @@
 | PB7(OC1C) | LED blue channel FET                 |
 
 * Flashing device firmware
-
-** Firmware files
-
-Download a =rawtumbra= build from [[https://dev.antumbra.io/build/rawtumbra/]]. This
-is a tar archive containing the following:
-
-- Bootloader firmware in Intel HEX format (~loader.hex~)
-- Application firmware in Intel HEX (~main.hex~) and raw binary (~main.bin~)
-  format
-- Combined bootloader and application firmware in Intel HEX format
-  (~combined.hex~)
-- EEPROM contents (~default.eep~ and ~combined.eep~)
 
 ** Initial flashing
 
