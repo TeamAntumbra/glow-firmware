@@ -28,10 +28,10 @@ Firmware builds may be downloaded from [[https://dev.antumbra.io/build/rawtumbra
 
 ** Chip configuration
 
-| lfuse |       0xff |
-| hfuse |       0x9e |
-| efuse | 0xc8(0xf8) |
-| lock  |       0xff |
+| lfuse |                    0xff |
+| hfuse |                    0x9e |
+| efuse | 0xc8 (may read as 0xf8) |
+| lock  |                    0xff |
 
 ** Pins
 
@@ -44,7 +44,7 @@ Firmware builds may be downloaded from [[https://dev.antumbra.io/build/rawtumbra
 
 * Flashing device firmware
 
-** Initial flashing
+** Initial chip configuration
 
 The commands given use ~avrdude~ with the AVR Dragon. Some versions of ~avrdude~
 ship without a device definition for the ~atmega16u4~, so one must be provided.
