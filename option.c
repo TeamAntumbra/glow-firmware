@@ -2,6 +2,7 @@
 
 #include <avr/eeprom.h>
 #include <util/atomic.h>
+#include <string.h>
 
 bool option_find(uint32_t opt, uint8_t *len, uint8_t **start)
 {
@@ -11,8 +12,9 @@ bool option_find(uint32_t opt, uint8_t *len, uint8_t **start)
             eeprom_read_block(optb, (uint8_t *)i, 4);
         }
 
-        if (optb[0] == 0xff && optb[1] == 0xff &&
-            optb[2] == 0xff && optb[3] == 0xff)
+        uint8_t optend0[] = {0, 0, 0, 0};
+        uint8_t optend1[] = {0xff, 0xff, 0xff, 0xff};
+        if (!memcmp(optb, optend0, sizeof optb) || !memcmp(optb, optend1, sizeof optb))
             break;
 
         uint8_t optl;
