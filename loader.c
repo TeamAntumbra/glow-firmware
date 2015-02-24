@@ -12,7 +12,7 @@
 #include "api-eeprom.h"
 #include "api-flash.h"
 
-static const char impl_id[] PROGMEM = "Glow v3 beta ldr " ANTUMBRA_COMMIT_ID;
+static const char impl_id[] PROGMEM = "io.antumbra.glow.v3ldr:" ANTUMBRA_COMMIT_ID;
 static const uint8_t dev_id[] PROGMEM = {ANTUMBRA_COMMIT_ID_HEX};
 static const char hw_id[] PROGMEM = "io.antumbra.glow.v3";
 
