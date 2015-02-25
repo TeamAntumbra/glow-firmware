@@ -623,7 +623,7 @@ Options are looked up via linear search by ID. Since EEPROM access may be slow,
 implementations are likely to read options once at boot and cache their values
 thereafter. Therefore, updates to EEPROM may not take effect until reset.
 
-Since ~00 00 00 00~ and ~ff ff ff ff~ are end markers, the option ID may not be
+Since ~00 00 00 00~ and ~ff ff ff ff~ are end markers, the option ID cannot be
 either of these values. All other values are permitted. However, for the sake of
 a more readable binary representation, it is recommended that the option ID be a
 sequence of 4 ASCII printable characters. For example, the option ID "TEST"
