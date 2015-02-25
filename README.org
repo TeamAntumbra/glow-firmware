@@ -311,7 +311,7 @@ Hardware boot switches, if applicable, override this setting.
 
 The response payload is empty.
 
-** EEPROM (2)
+** EEPROM (2) <<eepromapi>>
 
 This API allows access to the device's onboard byte-addressable nonvolatile data
 memory.
@@ -594,3 +594,37 @@ Command payload:
 | b_temp   |    4 | second point temperature value (millikelvin) |
 
 The response payload is empty.
+
+* EEPROM
+
+The format of the device EEPROM (as accessed by the [[eepromapi][EEPROM API]]) is
+implementation-defined. The following implementations are known to use the
+format described here:
+
+- ~io.antumbra.glow.v3.app~
+- ~io.antumbra.glow.v3.ldr~
+
+The EEPROM is structured as a list of options, each of which follows a
+straightforward type-length-value encoding:
+
+| Field   |     Size |                                                |
+|---------+----------+------------------------------------------------|
+| id      |        4 | mostly arbitrary; see below                    |
+| length  |        1 | length of payload field                        |
+| payload | (length) | arbitrary data; structure defined by option ID |
+
+The options are directly concatenated. At the end of the list is the 4-byte
+option end marker, which may be either ~00 00 00 00~ or ~ff ff ff ff~. These
+values are chosen because unprogrammed EEPROM bytes are typically either ~00~ or
+~ff~; thus, if the entire EEPROM is unprogrammed, the option list will be
+interpreted as having zero length.
+
+Options are looked up via linear search by ID. Since EEPROM access may be slow,
+implementations are likely to read options once at boot and cache their values
+thereafter. Therefore, updates to EEPROM may not take effect until reset.
+
+Since ~00 00 00 00~ and ~ff ff ff ff~ are end markers, the option ID may not be
+either of these values. All other values are permitted. However, for the sake of
+a more readable binary representation, it is recommended that the option ID be a
+sequence of 4 ASCII characters. For example, the option ID "TEST" would be
+encoded as ~54 45 53 54~.
