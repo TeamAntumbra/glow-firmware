@@ -563,8 +563,11 @@ Response payload:
 Read the stored calibration data. Conceptually, this exists as two measurements
 taken at different temperatures. Each measurement contains the actual
 temperature and the raw sensor value for that temperature. When a calibrated
-temperature is to be retrieved, the current sensor value is fitted to the line
+temperature is to be retrieved, the current sensor value is fitted to the curve
 given by the two calibration points.
+
+The nature of the curve is unspecified. However, typical on-chip temperature
+sensors are approximately described by a linear function.
 
 The command payload is empty.
 
