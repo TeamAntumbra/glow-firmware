@@ -7,7 +7,7 @@ You need:
 - AVR toolchain: avr-binutils, avr-gcc, avr-libc.
 - GNU make.
 - LUFA (http://www.fourwalledcubicle.com/LUFA.php), extracted with top-level
-  directory ~LUFA-xxxxxx/~ as ~lufa/~. Version 140302 is known to work.
+  directory ~lufa-LUFA-xxxxxx/~ as ~lufa/~. Version 140302 is known to work.
 
 Run:
 
