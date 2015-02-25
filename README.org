@@ -626,5 +626,5 @@ thereafter. Therefore, updates to EEPROM may not take effect until reset.
 Since ~00 00 00 00~ and ~ff ff ff ff~ are end markers, the option ID may not be
 either of these values. All other values are permitted. However, for the sake of
 a more readable binary representation, it is recommended that the option ID be a
-sequence of 4 ASCII characters. For example, the option ID "TEST" would be
-encoded as ~54 45 53 54~.
+sequence of 4 ASCII printable characters. For example, the option ID "TEST"
+would be encoded as ~54 45 53 54~.
