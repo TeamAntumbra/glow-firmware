@@ -33,12 +33,14 @@ all: main.bin loader.hex default.eep combined.hex combined.eep
 
 %.elf:
 	$(LD) $(LDFLAGS) -o $@ $^ $(LDLIBS)
+	chmod -x $@
 
 %.hex: %.elf
 	avr-objcopy -O ihex $< $@
 
 %.bin: %.elf
 	avr-objcopy -O binary $< $@
+	chmod -x $@
 
 %.eep: %.eep.txt
 	cut -f 1 -d '#' $< | xxd -r -p > $@
