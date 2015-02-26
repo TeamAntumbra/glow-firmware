@@ -26,6 +26,8 @@ The only difference between the EEPROM files is that ~combined.eep~ contains a
 flag that tells the bootloader to automatically start the application. In
 ~default.eep~, the flag is unset.
 
+Firmware builds can be downloaded from [[https://github.com/TeamAntumbra/glowbeta-firmware/releases][GitHub]].
+
 * Hardware
 
 ** Chip configuration
