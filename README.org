@@ -20,9 +20,11 @@ You will get:
   format
 - Combined bootloader and application firmware in Intel HEX format
   (~combined.hex~)
-- EEPROM contents (~default.eep~ and ~combined.eep~)
+- EEPROM contents in raw binary (~default.eep~ and ~combined.eep~)
 
-Firmware builds may be downloaded from [[https://dev.antumbra.io/build/rawtumbra/]].
+The only difference between the EEPROM files is that ~combined.eep~ contains a
+flag that tells the bootloader to automatically start the application. In
+~default.eep~, the flag is unset.
 
 * Hardware
 
@@ -41,6 +43,8 @@ Firmware builds may be downloaded from [[https://dev.antumbra.io/build/rawtumbra
 | PB5(OC1A) | LED red channel FET                  |
 | PB6(OC1B) | LED green channel FET                |
 | PB7(OC1C) | LED blue channel FET                 |
+
+Shorting PB2 to GND during reset forces bootloader activation.
 
 * Flashing device firmware
 
@@ -86,8 +90,7 @@ Use ~antumbratool~ to flash the main application:
 This method will be used in mass production.
 
 Flash bootloader, application, and EEPROM. ~combined.eep~ must be used in place
-of ~default.eep~ because it tells the bootloader that an application has already
-been flashed. The two EEPROM files are otherwise identical.
+of ~default.eep~.
 
 : $CMDLINE -B 0.5 -U flash:w:combined.hex:i -U eeprom:w:combined.eep:r
 
