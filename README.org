@@ -6,11 +6,10 @@ You need:
 
 - AVR toolchain: avr-binutils, avr-gcc, avr-libc.
 - GNU make.
-- LUFA (http://www.fourwalledcubicle.com/LUFA.php), extracted with top-level
-  directory ~lufa-LUFA-xxxxxx/~ as ~lufa/~. Version 140302 is known to work.
 
 Run:
 
+: git submodule update --init
 : make
 
 You will get:
