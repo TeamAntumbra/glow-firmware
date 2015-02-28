@@ -7,3 +7,4 @@
 *.d
 *.eep
 /combined.eep.txt
+/BUILD.tar.gz
