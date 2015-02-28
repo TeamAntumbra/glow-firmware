@@ -49,8 +49,6 @@ Shorting PB2 to GND during reset forces bootloader activation.
 
 * Flashing device firmware
 
-** Initial chip configuration
-
 The commands given use ~avrdude~ with the AVR Dragon. Some versions of ~avrdude~
 ship without a device definition for the ~atmega16u4~, so one must be provided.
 This is available in the repository as ~avrdude-m16u4.conf~.
@@ -74,7 +72,11 @@ Set the configuration fuses:
 The highest clock frequency is now configured, and faster programming speeds can
 be used in subsequent commands.
 
-*** Bootloader by ISP, application by USB
+Some of the methods below use ~antumbratool~ (part of libantumbra), a
+command-line tool for programming and testing Glow devices. Precompiled builds
+are available from [[https://github.com/TeamAntumbra/libantumbra/releases][GitHub]].
+
+** Bootloader by ISP, application by USB
 
 Flash bootloader and EEPROM:
 
@@ -86,7 +88,7 @@ Use ~antumbratool~ to flash the main application:
 : antumbratool boot-set main
 : antumbratool reset
 
-*** Bootloader and application together by ISP
+** Bootloader and application together by ISP
 
 This method will be used in mass production.
 
