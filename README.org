@@ -121,7 +121,6 @@ vendor and product ID:
 
 | Vendor ID | Product ID |                                     |
 |-----------+------------+-------------------------------------|
-|    0x2040 |     0x03eb | LUFA test ID (experimental only)    |
 |    0x16d0 |     0x0a85 | production ID (via MCS Electronics) |
 
 Only the first interface (bInterfaceNumber = 0) of the default configuration
