@@ -104,8 +104,12 @@ Use ~antumbratool~:
 : antumbratool boot-set loader
 : antumbratool reset
 : antumbratool flash-write main.bin
+: antumbratool eeprom-write default.eep
 : antumbratool boot-set main
 : antumbratool reset
+
+It is strongly recommended to update the EEPROM when flashing new firmware.
+Using an old EEPROM with new firmware may result in wildly incorrect behavior.
 
 * Protocol
 
