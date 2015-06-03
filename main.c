@@ -33,7 +33,7 @@ static const api_cmd_list *use_apis[] = {
     &api_temp,
 };
 
-static uint16_t curr, curg = 1, curb;
+static uint16_t curr, curg, curb;
 
 static enum thermal_state {
     NORMAL,
@@ -96,12 +96,24 @@ static uint16_t convu16(const uint8_t *buf)
     return (uint16_t)buf[0] << 8 | buf[1];
 }
 
+// ICLR
+#define STARTUPLED_OPTION_ID 0x49434c52
+static void led_set_startup_value(void)
+{
+    uint8_t startupdef[6] = {0, 0, 0, 1, 0, 0}; // low green if undef
+    option_get(STARTUPLED_OPTION_ID, startupdef, sizeof startupdef);
+    curr = convu16(startupdef);
+    curg = convu16(startupdef + 2);
+    curb = convu16(startupdef + 4);
+    led_set_rgb(curr, curg, curb);
+}
+
 int main(void)
 {
     cli();
     api_core_recover_reset();
     led_init();
-    led_set_rgb(0, 1, 0);
+    led_set_startup_value();
     api_temp_init();
     sei();
 

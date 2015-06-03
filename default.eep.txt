@@ -36,5 +36,8 @@
 # (u32) total shutdown point (mK)
 4f564854 08 00053c6e 00059e16
 
+# Startup color
+49434c52 06 0000 0001 0000
+
 # Option end marker
 ffffffff
