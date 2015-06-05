@@ -1,4 +1,4 @@
-# Force bootloader entry on reset
+# (BOOT) Force bootloader entry on reset
 #
 # 00: do not force bootloader
 # XX: force bootloader
@@ -6,7 +6,7 @@
 # This line is Makefile magic.
 424f4f54 01 01
 
-# Override 56-byte unique ID
+# (OVID) Override 56-byte unique ID
 #
 # 00: do not override
 # XX: override
@@ -16,7 +16,7 @@
 00000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000
 
-# Temperature sensor calibration
+# (TCAL) Temperature sensor calibration
 #
 # (u32) point A sensor value
 # (u32) point A temperature (mK)
@@ -24,19 +24,19 @@
 # (u32) point B temperature (mK)
 5443414c 10 0000012c 00047888 00000168 00057670
 
-# Master LED multiplier
+# (MULT) Master LED multiplier
 #
 # (u8) numerator
 # (u8) denominator
 4d554c54 02 04 05
 
-# Thermal shutdown parameters
+# (OVHT) Thermal shutdown parameters
 #
 # (u32) restriction start point (mK)
 # (u32) total shutdown point (mK)
 4f564854 08 00053c6e 00059e16
 
-# Startup color
+# (ICLR) Startup color
 49434c52 06 0000 0001 0000
 
 # Option end marker
