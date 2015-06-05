@@ -3,7 +3,7 @@ fcpu = 16000000UL
 
 CC = avr-gcc
 CFLAGS := \
-	-Wall -std=c99 -Os -g -mmcu=$(mcu) -DF_CPU=$(fcpu) \
+	-Wall -Werror -std=c99 -Os -g -mmcu=$(mcu) -DF_CPU=$(fcpu) \
 	\
 	-ffunction-sections \
 	-fdata-sections \
