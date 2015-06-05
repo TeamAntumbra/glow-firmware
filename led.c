@@ -3,7 +3,6 @@
 
 #include <avr/io.h>
 #include <util/atomic.h>
-#include <util/delay.h>
 
 #define MULTIPLIER_OPTION_ID 0x4d554c54
 
