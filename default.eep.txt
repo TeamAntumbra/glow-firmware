@@ -28,7 +28,7 @@
 #
 # (u8) numerator
 # (u8) denominator
-4d554c54 02 04 05
+4d554c54 02 05 05
 
 # (OVHT) Thermal shutdown parameters
 #
