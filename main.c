@@ -96,6 +96,11 @@ void api_core_fill_diagnostic(uint8_t *diagbuf)
         memcpy(diagbuf, "OVHT", 4);
 }
 
+uint32_t api_temp_reported_temp(void)
+{
+    return current_temp;
+}
+
 static uint32_t convu32(const uint8_t *buf)
 {
     return (uint32_t)buf[0] << 24 | (uint32_t)buf[1] << 16 | (uint32_t)buf[2] << 8 | buf[3];
