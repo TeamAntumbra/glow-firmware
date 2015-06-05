@@ -69,6 +69,7 @@ static void set_leds_thermal_scale(uint16_t r, uint16_t g, uint16_t b)
     }
 }
 
+static bool did_start_temp_buf;
 static uint32_t temp_buf[32];
 static uint8_t temp_idx;
 
@@ -76,6 +77,11 @@ static void thermal_check(void)
 {
     temp_buf[temp_idx] = api_temp_read();
     temp_idx = (temp_idx + 1) % (sizeof temp_buf / sizeof *temp_buf);
+    if (!did_start_temp_buf) {
+        for (uint8_t i = 1; i < sizeof temp_buf / sizeof *temp_buf; ++i)
+            temp_buf[i] = temp_buf[0];
+        did_start_temp_buf = true;
+    }
 
     uint32_t tempsum = 0;
     for (uint8_t i = 0; i < sizeof temp_buf / sizeof *temp_buf; ++i)
