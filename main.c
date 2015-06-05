@@ -69,9 +69,19 @@ static void set_leds_thermal_scale(uint16_t r, uint16_t g, uint16_t b)
     }
 }
 
+static uint32_t temp_buf[32];
+static uint8_t temp_idx;
+
 static void thermal_check(void)
 {
-    current_temp = api_temp_read();
+    temp_buf[temp_idx] = api_temp_read();
+    temp_idx = (temp_idx + 1) % (sizeof temp_buf / sizeof *temp_buf);
+
+    uint32_t tempsum = 0;
+    for (uint8_t i = 0; i < sizeof temp_buf / sizeof *temp_buf; ++i)
+        tempsum += temp_buf[i];
+    current_temp = tempsum / (sizeof temp_buf / sizeof *temp_buf);
+
     overheat_state = (current_temp < restrict_start ? NORMAL :
                       restrict_start <= current_temp && current_temp < shutdown_start ? RESTRICT :
                       SHUTDOWN);
