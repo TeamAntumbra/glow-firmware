@@ -1,6 +1,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
+#include <util/delay.h>
 
 #include "led.h"
 #include "rawusb.h"
@@ -42,6 +43,8 @@ int main(void)
     DDRB &= ~_BV(DDB2);
     PORTB |= _BV(PORTB2);
 
+    // Allow input to settle before reading
+    _delay_ms(50);
     if (~PINB & _BV(PINB2) || api_bootcontrol_loaderforced())
         led_set_rgb(0, 0, 1);
     else {
